@@ -242,7 +242,7 @@
                 if (response.ok) {
                     showMessage('Login successful! Redirecting...', 'success');
                     setTimeout(() => {
-                        window.location.href = '/';
+                        window.location.href = '/index.html';
                     }, 1000);
                 } else {
                     showMessage(data.error || 'Login failed');
