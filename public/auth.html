@@ -308,10 +308,10 @@
                 const data = await response.json();
                 
                 if (data.authenticated) {
-                    window.location.href = '/';
+                    window.location.href = '/index.html';
                 }
             } catch (error) {
-                // Not authenticated, stay on login page
+                window.location.href = '/index.html';
             }
         }
         
