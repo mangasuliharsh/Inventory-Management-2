@@ -247,12 +247,12 @@ app.get('/', (req, res) => {
   }
 });
 
-app.get('/auth.html', (req, res) => {
+app.get('/index.html', (req, res) => {
   // If user is already authenticated, redirect to main app
   if (req.session && req.session.userId) {
     res.redirect('/');
   } else {
-    res.sendFile(path.join(__dirname, 'public', 'auth.html'));
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
   }
 });
 
