@@ -1,0 +1,25 @@
+# Node dependencies
+node_modules/
+
+# Logs
+logs
+*.log
+
+# Environment variables
+.env
+
+# System files
+.DS_Store
+Thumbs.db
+
+# IDEs and editors
+.vscode/
+.idea/
+*.swp
+
+# Replit
+.replit
+
+# Optional: If using Streamlit/Python in subdir
+streamlit/__pycache__/
+streamlit/*.pyc

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory Management System</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <h1>📦 Inventory Management System</h1>
+                <div class="user-info">
+                    <span id="welcomeUser">Welcome, User</span>
+                    <button class="btn btn-secondary" onclick="logout()">Logout</button>
+                </div>
+            </div>
+            <nav>
+                <button class="nav-btn active" data-section="dashboard">Dashboard</button>
+                <button class="nav-btn" data-section="products">Products</button>
+                <button class="nav-btn" data-section="categories">Categories</button>
+                <button class="nav-btn" data-section="suppliers">Suppliers</button>
+            </nav>
+        </header>
+
+        <!-- Dashboard Section -->
+        <section id="dashboard" class="section active">
+            <h2>Dashboard</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>Total Products</h3>
+                    <span id="totalProducts">0</span>
+                </div>
+                <div class="stat-card">
+                    <h3>Categories</h3>
+                    <span id="totalCategories">0</span>
+                </div>
+                <div class="stat-card">
+                    <h3>Suppliers</h3>
+                    <span id="totalSuppliers">0</span>
+                </div>
+                <div class="stat-card warning">
+                    <h3>Low Stock Items</h3>
+                    <span id="lowStockProducts">0</span>
+                </div>
+                <div class="stat-card">
+                    <h3>Total Stock Value</h3>
+                    <span id="totalStockValue">$0.00</span>
+                </div>
+            </div>
+            
+            
+        </section>
+
+        <!-- Products Section -->
+        <section id="products" class="section">
+            <div class="section-header">
+                <h2>Products</h2>
+                <button class="btn btn-primary" onclick="showProductForm()">Add New Product</button>
+            </div>
+
+            <div class="filters">
+                <select id="categoryFilter" onchange="filterProducts()">
+                    <option value="">All Categories</option>
+                </select>
+                <button class="btn btn-secondary" onclick="toggleLowStock()">Toggle Low Stock</button>
+            </div>
+
+            <div id="productForm" class="modal">
+                <div class="modal-content">
+                    <span class="close" onclick="hideProductForm()">&times;</span>
+                    <h3 id="productFormTitle">Add New Product</h3>
+                    <form id="productFormElement">
+                        <input type="hidden" id="productId">
+                        <div class="form-group">
+                            <label for="productName">Product Name:</label>
+                            <input type="text" id="productName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="productCategory">Category:</label>
+                            <select id="productCategory" required>
+                                <option value="">Select Category</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="productSupplier">Supplier:</label>
+                            <select id="productSupplier" required>
+                                <option value="">Select Supplier</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="productQuantity">Quantity:</label>
+                            <input type="number" id="productQuantity" min="0" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="productPrice">Price ($):</label>
+                            <input type="number" id="productPrice" min="0" step="0.01" required>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Save Product</button>
+                            <button type="button" class="btn btn-secondary" onclick="hideProductForm()">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table id="productsTable">
+                    <thead>
+                        <tr>
+                            <th>Product Name</th>
+                            <th>Category</th>
+                            <th>Supplier</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Stock Value</th>
+                            <th>Date Added</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="productsTableBody">
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Categories Section -->
+        <section id="categories" class="section">
+            <div class="section-header">
+                <h2>Categories</h2>
+                <button class="btn btn-primary" onclick="showCategoryForm()">Add New Category</button>
+            </div>
+
+            <div id="categoryForm" class="modal">
+                <div class="modal-content">
+                    <span class="close" onclick="hideCategoryForm()">&times;</span>
+                    <h3 id="categoryFormTitle">Add New Category</h3>
+                    <form id="categoryFormElement">
+                        <input type="hidden" id="categoryId">
+                        <div class="form-group">
+                            <label for="categoryName">Category Name:</label>
+                            <input type="text" id="categoryName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="categoryDescription">Description:</label>
+                            <textarea id="categoryDescription" required></textarea>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Save Category</button>
+                            <button type="button" class="btn btn-secondary" onclick="hideCategoryForm()">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table id="categoriesTable">
+                    <thead>
+                        <tr>
+                            <th>Category Name</th>
+                            <th>Description</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="categoriesTableBody">
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Suppliers Section -->
+        <section id="suppliers" class="section">
+            <div class="section-header">
+                <h2>Suppliers</h2>
+                <button class="btn btn-primary" onclick="showSupplierForm()">Add New Supplier</button>
+            </div>
+
+            <div id="supplierForm" class="modal">
+                <div class="modal-content">
+                    <span class="close" onclick="hideSupplierForm()">&times;</span>
+                    <h3 id="supplierFormTitle">Add New Supplier</h3>
+                    <form id="supplierFormElement">
+                        <input type="hidden" id="supplierId">
+                        <div class="form-group">
+                            <label for="supplierName">Supplier Name:</label>
+                            <input type="text" id="supplierName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="supplierEmail">Contact Email:</label>
+                            <input type="email" id="supplierEmail" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="supplierPhone">Phone Number:</label>
+                            <input type="tel" id="supplierPhone" required>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Save Supplier</button>
+                            <button type="button" class="btn btn-secondary" onclick="hideSupplierForm()">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table id="suppliersTable">
+                    <thead>
+                        <tr>
+                            <th>Supplier Name</th>
+                            <th>Contact Email</th>
+                            <th>Phone Number</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="suppliersTableBody">
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+
+    <div id="notification" class="notification"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
