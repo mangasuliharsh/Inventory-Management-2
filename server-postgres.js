@@ -14,6 +14,10 @@ const NODE_ENV = process.env.NODE_ENV || 'development';
 
 // Middleware
 app.use(express.json());
+app.use(cors({
+  origin: process.env.BASE_URL,
+  credentials: true
+}));
 app.use(session({
   secret: process.env.SESSION_SECRET || 'inventory-management-secret-key',
   resave: false,
