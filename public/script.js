@@ -42,7 +42,7 @@ async function checkAuthentication() {
         const data = await response.json();
         
         if (!data.authenticated) {
-            window.location.href = '/index.html';
+            window.location.href = '/';
             return;
         }
         
@@ -51,7 +51,7 @@ async function checkAuthentication() {
         initializeApp();
         setupEventListeners();
     } catch (error) {
-        window.location.href = '/index.html';
+        window.location.href = '/';
     }
 }
 
